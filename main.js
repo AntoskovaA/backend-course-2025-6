@@ -15,6 +15,7 @@ program
   .parse(process.argv);
 
 const options = program.opts();
+const DB_FILE = path.join(options.cache, 'db.json');
 
 // 2. Логіка створення директорії кешу 
 if (!fs.existsSync(options.cache)) {
@@ -24,15 +25,28 @@ if (!fs.existsSync(options.cache)) {
     console.log(`[System] Використовується існуюча директорія кешу: ${options.cache}`);
 }
 
+// Функції для роботи з файлом бази даних
+function loadInventory() {
+    if (fs.existsSync(DB_FILE)) {
+        const data = fs.readFileSync(DB_FILE, 'utf8');
+        return JSON.parse(data);
+    }
+    return [];
+}
+function saveInventory(data) {
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+}
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, options.cache),
     filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
 
-const upload = multer({ dest: options.cache });
-let inventory = [];
+const upload = multer({ storage: storage });
+let inventory = loadInventory();
 
 const app = express();
+app.use(express.json());
 
 app.get('/RegisterForm.html', (req, res) => {
     res.sendFile(path.resolve('RegisterForm.html'));
@@ -40,6 +54,33 @@ app.get('/RegisterForm.html', (req, res) => {
 
 app.get('/SearchForm.html', (req, res) => {
     res.sendFile(path.resolve('SearchForm.html'));
+});
+app.get('/inventory', (req, res) => {
+    const list = inventory.map(item => ({
+        ...item,
+        // Створюємо динамічне посилання на фото
+        photo_url: item.photo ? `http://${options.host}:${options.port}/inventory/${item.id}/photo` : null
+    }));
+    res.status(200).json(list);
+});
+
+app.get('/inventory/:id', (req, res) => {
+    const item = inventory.find(i => i.id === req.params.id);
+    if (!item) return res.status(404).send('Not Found');
+    
+    res.status(200).json({
+        ...item,
+        photo_url: item.photo ? `http://${options.host}:${options.port}/inventory/${item.id}/photo` : null
+    });
+});
+
+app.get('/inventory/:id/photo', (req, res) => {
+    const item = inventory.find(i => i.id === req.params.id);
+    if (!item || !item.photo) return res.status(404).send('Not Found');
+
+    const filePath = path.resolve(options.cache, item.photo);
+    res.setHeader('Content-Type', 'image/jpeg');
+    res.sendFile(filePath);
 });
 
 app.post('/register', upload.single('photo'), (req, res) => {
@@ -58,6 +99,7 @@ app.post('/register', upload.single('photo'), (req, res) => {
     };
 
     inventory.push(newItem);
+    saveInventory(inventory);
     res.status(201).json(newItem); // Успіх - статус 201 [cite: 80]
 });
 
