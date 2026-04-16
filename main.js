@@ -103,6 +103,40 @@ app.post('/register', upload.single('photo'), (req, res) => {
     res.status(201).json(newItem); // Успіх - статус 201 [cite: 80]
 });
 
+// Оновлення імені або опису
+app.put('/inventory/:id', (req, res) => {
+    const item = inventory.find(i => i.id === req.params.id);
+    if (!item) return res.status(404).send('Not Found');
+
+    const { name, description } = req.body;
+    
+    // Оновлюємо тільки ті поля, які прийшли в запиті
+    if (name) item.name = name;
+    if (description) item.description = description;
+
+    saveInventory(inventory); // Зберігаємо зміни у файл
+    res.status(200).json(item);
+});
+
+// Оновлення тільки файлу фото
+app.put('/inventory/:id/photo', upload.single('photo'), (req, res) => {
+    const item = inventory.find(i => i.id === req.params.id);
+    if (!item) return res.status(404).send('Not Found');
+
+    if (!req.file) {
+        return res.status(400).send('Bad Request: photo file is required');
+    }
+
+    // Оновлюємо ім'я файлу фото
+    item.photo = req.file.filename;
+
+    saveInventory(inventory);
+    res.status(200).json({
+        message: 'Photo updated successfully',
+        photo_url: `http://${options.host}:${options.port}/inventory/${item.id}/photo`
+    });
+});
+
 // 3. Запуск сервера з параметрами host та port 
 app.listen(options.port, options.host, () => {
     console.log(`
