@@ -86,13 +86,13 @@ app.get('/inventory/:id/photo', (req, res) => {
 app.post('/register', upload.single('photo'), (req, res) => {
     const { inventory_name, description } = req.body;
 
-    // Перевірка обов'язкового поля [cite: 21, 48]
+    // Перевірка обов'язкового поля 
     if (!inventory_name) {
         return res.status(400).send('Bad Request: name is required');
     }
 
     const newItem = {
-        id: uuidv4(), // Генеруємо унікальний ID [cite: 16]
+        id: uuidv4(), // Генеруємо унікальний ID
         name: inventory_name,
         description: description || '',
         photo: req.file ? req.file.filename : null
@@ -100,7 +100,7 @@ app.post('/register', upload.single('photo'), (req, res) => {
 
     inventory.push(newItem);
     saveInventory(inventory);
-    res.status(201).json(newItem); // Успіх - статус 201 [cite: 80]
+    res.status(201).json(newItem); // Успіх - статус 201
 });
 
 // Оновлення імені або опису
@@ -135,6 +135,16 @@ app.put('/inventory/:id/photo', upload.single('photo'), (req, res) => {
         message: 'Photo updated successfully',
         photo_url: `http://${options.host}:${options.port}/inventory/${item.id}/photo`
     });
+});
+
+// Видалення інвентаризованої речі зі списку 
+app.delete('/inventory/:id', (req, res) => {
+    const index = inventory.findIndex(i => i.id === req.params.id);
+    if (index === -1) return res.status(404).send('Not Found');
+
+    inventory.splice(index, 1);
+    saveInventory(inventory);
+    res.status(200).send('Deleted successfully');
 });
 
 // 3. Запуск сервера з параметрами host та port 
