@@ -47,6 +47,7 @@ let inventory = loadInventory();
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/RegisterForm.html', (req, res) => {
     res.sendFile(path.resolve('RegisterForm.html'));
@@ -103,6 +104,24 @@ app.post('/register', upload.single('photo'), (req, res) => {
     res.status(201).json(newItem); // Успіх - статус 201
 });
 
+app.post('/search', (req, res) => {
+    const { id, has_photo } = req.body; // Поля id та has_photo [cite: 76, 77]
+    const item = inventory.find(i => i.id === id);
+
+    if (!item) {
+        return res.status(404).send('Not Found'); // 404 якщо не знайдено [cite: 78]
+    }
+
+    let result = { ...item };
+    
+    // Якщо вибрано прапорець, додаємо посилання на фото [cite: 77]
+    if (has_photo === 'true' && item.photo) {
+        result.photo_url = `http://${options.host}:${options.port}/inventory/${item.id}/photo`;
+    }
+
+    res.status(200).json(result);
+});
+
 // Оновлення імені або опису
 app.put('/inventory/:id', (req, res) => {
     const item = inventory.find(i => i.id === req.params.id);
@@ -145,6 +164,10 @@ app.delete('/inventory/:id', (req, res) => {
     inventory.splice(index, 1);
     saveInventory(inventory);
     res.status(200).send('Deleted successfully');
+});
+
+app.use((req, res) => { 
+    res.status(405).send('Method Not Allowed'); 
 });
 
 // 3. Запуск сервера з параметрами host та port 

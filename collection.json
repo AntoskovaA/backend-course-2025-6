@@ -1,0 +1,223 @@
+{
+  "info": {
+    "_postman_id": "5fc736f5-6bc5-48d2-a102-38e3ec9db9fa",
+    "name": "My Collection",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54072886",
+    "_collection_link": "https://go.postman.co/collection/54072886-5fc736f5-6bc5-48d2-a102-38e3ec9db9fa?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:3000/inventory",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "3000",
+          "path": [
+            "inventory"
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "Post data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "inventory_name",
+              "value": "dd",
+              "type": "text",
+              "uuid": "8fd342cd-2370-4ffd-9720-47625270cf19"
+            },
+            {
+              "key": "photo",
+              "type": "file",
+              "uuid": "deb3fb7b-1596-49d8-aa63-8bf182db8c6c",
+              "value": null
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:3000/register",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "3000",
+          "path": [
+            "register"
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    },
+    {
+      "name": "get from id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:3000/inventory/bba042f0-0918-4d3f-990b-44d571e10f79",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "3000",
+          "path": [
+            "inventory",
+            "bba042f0-0918-4d3f-990b-44d571e10f79"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Put update",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"someth\", \"description\": \"new description\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:3000/inventory/01e0e658-5391-49f9-9f1d-bb816336761f",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "3000",
+          "path": [
+            "inventory",
+            "01e0e658-5391-49f9-9f1d-bb816336761f"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:3000/inventory/4bf13c7e-ca7d-421e-a897-9d0b6eba65b8",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "3000",
+          "path": [
+            "inventory",
+            "4bf13c7e-ca7d-421e-a897-9d0b6eba65b8"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post search",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "id",
+              "value": "true",
+              "type": "text",
+              "uuid": "4e88c4c0-1d24-48fc-85e6-e1ecb14fe910"
+            },
+            {
+              "key": "has_photo",
+              "value": "true",
+              "type": "text",
+              "uuid": "dc1aaf49-3ab9-4be6-a9e5-844f31c47c25"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:3000/search",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "3000",
+          "path": [
+            "search"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
