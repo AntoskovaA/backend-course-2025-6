@@ -105,16 +105,16 @@ app.post('/register', upload.single('photo'), (req, res) => {
 });
 
 app.post('/search', (req, res) => {
-    const { id, has_photo } = req.body; // Поля id та has_photo [cite: 76, 77]
+    const { id, has_photo } = req.body; // Поля id та has_photo 
     const item = inventory.find(i => i.id === id);
 
     if (!item) {
-        return res.status(404).send('Not Found'); // 404 якщо не знайдено [cite: 78]
+        return res.status(404).send('Not Found'); // 404 якщо не знайдено
     }
 
     let result = { ...item };
     
-    // Якщо вибрано прапорець, додаємо посилання на фото [cite: 77]
+    // Якщо вибрано прапорець, додаємо посилання на фото 
     if (has_photo === 'true' && item.photo) {
         result.photo_url = `http://${options.host}:${options.port}/inventory/${item.id}/photo`;
     }

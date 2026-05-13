@@ -9,7 +9,7 @@
   },
   "item": [
     {
-      "name": "Get data",
+      "name": "GET /inventory",
       "event": [
         {
           "listen": "test",
@@ -72,20 +72,21 @@
           "formdata": [
             {
               "key": "inventory_name",
-              "value": "dd",
+              "value": "ааааа",
               "type": "text",
               "uuid": "8fd342cd-2370-4ffd-9720-47625270cf19"
             },
             {
               "key": "photo",
+              "description": "тут має бути фото",
               "type": "file",
-              "uuid": "deb3fb7b-1596-49d8-aa63-8bf182db8c6c",
-              "value": null
+              "uuid": "28ff8a44-ffc2-4c05-a367-62fd06f2156e",
+              "src": "/C:/Users/Alina/Pictures/walpaper/09ab9e6bdc50efdca343f2953b84a87b.jpg"
             }
           ]
         },
         "url": {
-          "raw": "http://127.0.0.1:3000/register",
+          "raw": "http://127.0.0.1:3000/register?photo",
           "protocol": "http",
           "host": [
             "127",
@@ -96,6 +97,13 @@
           "port": "3000",
           "path": [
             "register"
+          ],
+          "query": [
+            {
+              "key": "photo",
+              "value": null,
+              "type": "text"
+            }
           ]
         },
         "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
@@ -103,7 +111,7 @@
       "response": []
     },
     {
-      "name": "get from id",
+      "name": "GET /inventory/:id",
       "request": {
         "method": "GET",
         "header": [],
@@ -190,7 +198,7 @@
           "urlencoded": [
             {
               "key": "id",
-              "value": "true",
+              "value": "322d9f0d-ef95-41ab-be06-912433b8e7d0",
               "type": "text",
               "uuid": "4e88c4c0-1d24-48fc-85e6-e1ecb14fe910"
             },
@@ -214,6 +222,142 @@
           "port": "3000",
           "path": [
             "search"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /RegisterForm.html",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:3000/inventory/bba042f0-0918-4d3f-990b-44d571e10f79/photo",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "3000",
+          "path": [
+            "inventory",
+            "bba042f0-0918-4d3f-990b-44d571e10f79",
+            "photo"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /inventory/:id/photo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:3000/inventory/bba042f0-0918-4d3f-990b-44d571e10f79/photo",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "3000",
+          "path": [
+            "inventory",
+            "bba042f0-0918-4d3f-990b-44d571e10f79",
+            "photo"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /SearchForm.html",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "POST /register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "inventory_name",
+              "value": "test",
+              "type": "text",
+              "uuid": "820615b8-979d-42c5-b268-ba7856017ded"
+            },
+            {
+              "key": "description",
+              "value": "ttttt",
+              "type": "text",
+              "uuid": "063f582a-a372-401a-ae8a-9011ab1f95cd"
+            },
+            {
+              "key": "photo",
+              "type": "file",
+              "uuid": "4819f76b-2c6f-478f-85c3-badf9f6f1ddf",
+              "src": "postman-cloud:///1f14f0f5-83e2-4ed0-bc85-06454daa58d7"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:3000/register",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "3000",
+          "path": [
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT /inventory/:id/photo",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "photo",
+              "type": "file",
+              "uuid": "1967bf87-ecc0-4d71-b069-8400da6d6270",
+              "src": "postman-cloud:///1f14f0fd-48d9-4bb0-ab21-a3da8ac3dc08"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:3000/inventory/089a2579-00ea-4da9-a8a1-37871e58c3e9/photo",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "3000",
+          "path": [
+            "inventory",
+            "089a2579-00ea-4da9-a8a1-37871e58c3e9",
+            "photo"
           ]
         }
       },
